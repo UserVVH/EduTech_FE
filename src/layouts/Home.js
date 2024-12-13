@@ -141,7 +141,7 @@ function Home() {
                 alignItems: "center",
                 border: "1px solid #ddd",
                 borderRadius: "8px",
-                padding: "16px",
+                // padding: "16px",
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                 backgroundColor: "#fff",
                 height: "100%",

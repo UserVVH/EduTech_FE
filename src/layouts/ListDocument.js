@@ -6,7 +6,6 @@ import { LuUser2 } from "react-icons/lu";
 import { FiCheckCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import { BsSortDown, BsSortDownAlt } from "react-icons/bs";
 import Button from "../components/Button";
 import { FaEye } from "react-icons/fa";
 import "./css/index.css";
@@ -174,6 +173,9 @@ function ListDocument() {
               key={doc.id}
               className="itemDocumentList"
               onClick={() => handleItemClick(doc.id)}
+              style={{
+                marginBottom: "38%",
+              }}
             >
               <img
                 src={doc.image}
@@ -183,9 +185,34 @@ function ListDocument() {
                   e.target.src = imgDocument; // Thay đổi src nếu không tải được
                 }}
               />
-              <div className="listInfo">
-                <div className="titleInfo">{doc.title}</div>
-                <div className="listItemInfo">
+              <div
+                className="listInfo"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "8px",
+                  width: "100%",
+                }}
+              >
+                <div
+                  className="titleInfo"
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "18px",
+                    minHeight: "48px", // Đảm bảo đồng bộ chiều cao
+                    textAlign: "center",
+                    overflow: "hidden",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2, // Giới hạn 2 dòng
+                    WebkitBoxOrient: "vertical",
+                    cursor: "pointer", // Con trỏ hiển thị như liên kết
+                  }}
+                  title={doc.title}
+                >
+                  {doc.title}
+                </div>
+                {/* <div className="listItemInfo">
                   <TbClipboardList />
                   Thể loại: {doc.categoryName}
                 </div>
@@ -207,6 +234,93 @@ function ListDocument() {
                   {getStatusText(doc.status)}
                 </div>
                 <div className="star-rating">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <FaStar
+                      key={star}
+                      className={`star ${star <= 5 ? "filled" : ""}`}
+                    />
+                  ))}
+                </div> */}
+                <div
+                  className="listItemInfo"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    color: "#555",
+                    justifyContent: "flex-start",
+                    textAlign: "left",
+                  }}
+                >
+                  <TbClipboardList />
+                  <span>Thể loại: {doc.categoryName}</span>
+                </div>
+
+                <div
+                  className="listItemInfo"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    color: "#555",
+                    justifyContent: "flex-start",
+                    textAlign: "left",
+                  }}
+                >
+                  <WiTime5 />
+                  <span>Thời gian: {doc.relativeCreatedAt}</span>
+                </div>
+
+                <div
+                  className="listItemInfo"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    color: "#555",
+                    justifyContent: "flex-start",
+                    textAlign: "left",
+                  }}
+                >
+                  <LuUser2 />
+                  <span>{doc.userName}</span>
+                </div>
+
+                <div
+                  className="listItemInfo"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    color: "#555",
+                    justifyContent: "flex-start",
+                    textAlign: "left",
+                  }}
+                >
+                  <FaEye />
+                  <span>Lượt xem: {doc.view}</span>
+                </div>
+
+                <div
+                  className="listItemInfoAcp"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                  }}
+                >
+                  <FiCheckCircle />
+                  <span>{getStatusText(doc.status)}</span>
+                </div>
+
+                <div
+                  className="star-rating"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                  }}
+                >
                   {[1, 2, 3, 4, 5].map((star) => (
                     <FaStar
                       key={star}

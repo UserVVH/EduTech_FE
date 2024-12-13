@@ -147,7 +147,6 @@ export const register = (formData) => async (dispatch) => {
   }
 };
 
-
 export const forgotPassword = (email) => async (dispatch) => {
   try {
     const response = await fetch(

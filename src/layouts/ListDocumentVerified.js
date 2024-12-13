@@ -135,12 +135,22 @@ function ListDocumentVerified() {
         <div className="loadingDocument">Không có tài liệu nào được duyệt.</div>
       ) : (
         <div>
-          <div className="containerListUserDocument">
+          <div
+            className="containerListUserDocument"
+            style={{
+              marginBottom: "15%",
+              marginTop: 0,
+              lineHeight: 1.3,
+            }}
+          >
             {displayedDocuments.map((document) => (
               <div
                 className="itemDocumentOfUser"
                 key={document.id}
                 onClick={() => handleItemClick(document.id)}
+                style={{
+                  cursor: "pointer",
+                }}
               >
                 <img
                   src={document.image}
@@ -150,7 +160,7 @@ function ListDocumentVerified() {
                     e.target.src = imgDocument;
                   }}
                 />
-                <div className="listInfo">
+                {/* <div className="listInfo">
                   <div className="titleInfo">{document.title}</div>
                   <div className="listItemInfo">
                     <TbClipboardList />
@@ -177,6 +187,121 @@ function ListDocumentVerified() {
                       <FaStar
                         key={star}
                         className={`star ${star <= 5 ? "filled" : ""}`}
+                      />
+                    ))}
+                  </div>
+                </div> */}
+                <div
+                  className="listInfo"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "10px",
+                    width: "100%",
+                  }}
+                >
+                  <div
+                    className="titleInfo"
+                    // style={{
+                    //   fontWeight: "bold",
+                    //   width: "100%",
+                    //   textAlign: "left",
+                    // }}
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "18px",
+                      minHeight: "48px", // Đảm bảo đồng bộ chiều cao
+                      textAlign: "center",
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2, // Giới hạn 2 dòng
+                      WebkitBoxOrient: "vertical",
+                      cursor: "pointer", // Con trỏ hiển thị như liên kết
+                    }}
+                    title={document.title} // Tooltip mặc định
+                  >
+                    {document.title}
+                  </div>
+                  <div
+                    className="listItemInfo"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "14px",
+                      color: "#555",
+                      justifyContent: "flex-start",
+                      textAlign: "left",
+                    }}
+                  >
+                    <TbClipboardList />
+                    <span>Thể loại: {document.categoryName}</span>
+                  </div>
+                  <div
+                    className="listItemInfo"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "14px",
+                      color: "#555",
+                      justifyContent: "flex-start",
+                      textAlign: "left",
+                    }}
+                  >
+                    <WiTime5 />
+                    <span>Thời gian: {document.relativeCreatedAt}</span>
+                  </div>
+                  <div
+                    className="listItemInfo"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "14px",
+                      color: "#555",
+                      justifyContent: "flex-start",
+                      textAlign: "left",
+                    }}
+                  >
+                    <LuUser2 />
+                    <span>{document.userName}</span>
+                  </div>
+                  <div
+                    className="listItemInfo"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "14px",
+                      color: "#555",
+                      justifyContent: "flex-start",
+                      textAlign: "left",
+                    }}
+                  >
+                    <FaEye />
+                    <span className="titleView">Lượt xem: {document.view}</span>
+                  </div>
+                  <div
+                    className="listItemInfoAcp"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <FiCheckCircle />
+                    <span>{getStatusText(document.status)}</span>
+                  </div>
+                  <div
+                    className="star-rating"
+                    style={{
+                      gap: "5px",
+                      width: "100%",
+                    }}
+                  >
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <FaStar
+                        key={star}
+                        className={`star ${star <= 5 ? "filled" : ""}`}
+                        style={{ color: star <= 5 ? "gold" : "gray" }}
                       />
                     ))}
                   </div>
