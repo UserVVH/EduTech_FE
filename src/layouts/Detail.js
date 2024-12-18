@@ -94,13 +94,51 @@ function Detail() {
       if (isEditing) {
         handleEditComment(commentId);
       } else {
-        handleCommentSubmit();
+        if (comment.trim() === "") {
+          toast.error("Bình luận không được trống", {
+            position: "top-center",
+            autoClose: 1000,
+            closeOnClick: true,
+            className: "custom-toast",
+            progressClassName: "custom-progress",
+          });
+        } else if (authToken === "") {
+          toast.error("Bạn phải đăng nhập để bình luận", {
+            position: "top-center",
+            autoClose: 1000,
+            closeOnClick: true,
+            className: "custom-toast",
+            progressClassName: "custom-progress",
+          });
+        } else {
+          handleCommentSubmit();
+        }
       }
     }
   };
 
   const handleCommentSubmit = async () => {
-    if (!comment.trim()) return;
+    // if (!comment.trim()) return;
+    if (comment.trim() === "") {
+      toast.error("Bình luận không được trống", {
+        position: "top-center",
+        autoClose: 1000,
+        closeOnClick: true,
+        className: "custom-toast",
+        progressClassName: "custom-progress",
+      });
+      return;
+    }
+    if (authToken === "") {
+      toast.error("Bạn phải đăng nhập để bình luận", {
+        position: "top-center",
+        autoClose: 1000,
+        closeOnClick: true,
+        className: "custom-toast",
+        progressClassName: "custom-progress",
+      });
+      return;
+    }
     try {
       const response = await fetch(
         `http://localhost:8080/api/comments/${id}/add`,

@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo, updateUser } from "../Redux/actions/authActions";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "./css/index.css";
+import { toast } from "react-toastify";
 import avatarPlaceholder from "../assets/iconAva.png";
 import { FaCamera } from "react-icons/fa";
 import Button from "../components/Button";
@@ -16,6 +14,7 @@ function UpdateUser() {
   const [identifier, setIdentifier] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,18 +51,20 @@ function UpdateUser() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     const updatedUser = {
-      avatar, // File itself (image)
+      avatar,
       fullname,
       identifier,
       email,
       address,
     };
 
-    dispatch(updateUser(userId, updatedUser)).then(() => {
+    try {
+      await dispatch(updateUser(userId, updatedUser));
       toast.success("Đã cập nhật thông tin thành công!", {
         position: "top-center",
         autoClose: 2000,
@@ -71,30 +72,81 @@ function UpdateUser() {
       setTimeout(() => {
         navigate("/user");
       }, 2000);
-    });
+    } catch (error) {
+      toast.error("Cập nhật thông tin thất bại!", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="container">
-      {/* <ToastContainer /> */}
       <div className="formUpdateUser">
-        <div className="avatarContainer">
-          <img src={avatarPreview} alt="avatar" className="avatar" />
-          <label htmlFor="avatarUpload" className="avatarUploadLabel">
-            <FaCamera className="cameraIcon" />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginBottom: "24px",
+          }}
+        >
+          <img
+            src={avatarPreview}
+            alt="avatar"
+            style={{
+              width: "120px",
+              height: "120px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              marginBottom: "16px",
+            }}
+          />
+          <label
+            htmlFor="avatarUpload"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              cursor: "pointer",
+            }}
+          >
+            <FaCamera />
             Chọn hình ảnh
           </label>
           <input
             type="file"
             id="avatarUpload"
-            className="avatarUpload"
             onChange={handleAvatarChange}
             accept="image/*"
+            style={{ display: "none" }}
           />
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="itemUser">
-            Họ và tên<span className="requiredStar">*</span>
+
+        <form
+          onSubmit={handleSubmit}
+          style={{ width: "100%", maxWidth: "500px", margin: "0 auto" }}
+        >
+          <div
+            className="itemUser"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "120px 1fr",
+              gap: "16px",
+              marginBottom: "16px",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                textAlign: "right",
+                width: "100%",
+              }}
+            >
+              Họ và tên<span className="requiredStar">*</span>
+            </div>
             <input
               type="text"
               id="userName"
@@ -102,11 +154,36 @@ function UpdateUser() {
               onChange={(e) => setFullname(e.target.value)}
               placeholder="Nhập họ và tên"
               className="inputItemUser"
+              style={{
+                width: "100%",
+                height: "40px",
+                padding: "8px 12px",
+                border: "1px solid #d9d9d9",
+                borderRadius: "4px",
+                boxSizing: "border-box",
+              }}
               required
             />
           </div>
-          <div className="itemUser">
-            MSSV/GV<span className="requiredStar">*</span>
+
+          <div
+            className="itemUser"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "120px 1fr",
+              gap: "16px",
+              marginBottom: "16px",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                textAlign: "right",
+                width: "100%",
+              }}
+            >
+              Mã số<span className="requiredStar">*</span>
+            </div>
             <input
               type="text"
               id="userMSSV"
@@ -114,36 +191,149 @@ function UpdateUser() {
               onChange={(e) => setIdentifier(e.target.value)}
               placeholder="Nhập MSSV/GV"
               className="inputItemUser readOnlyField"
+              style={{
+                width: "100%",
+                height: "40px",
+                padding: "8px 12px",
+                border: "1px solid #d9d9d9",
+                borderRadius: "4px",
+                boxSizing: "border-box",
+              }}
               readOnly
             />
           </div>
-          <div className="itemUser">
-            Email<span className="requiredStar">*</span>
+
+          <div
+            className="itemUser"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "120px 1fr",
+              gap: "16px",
+              marginBottom: "16px",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                textAlign: "right",
+                width: "100%",
+              }}
+            >
+              Email<span className="requiredStar">*</span>
+            </div>
             <input
               type="text"
-              id="userEmail"
+              // id="userEmail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Nhập Email"
               className="inputItemUser readOnlyField"
+              style={{
+                width: "100%",
+                height: "40px",
+                padding: "8px 12px",
+                border: "1px solid #d9d9d9",
+                borderRadius: "4px",
+                boxSizing: "border-box",
+              }}
               readOnly
             />
           </div>
-          <div className="itemUser">
-            Địa chỉ<span className="requiredStar">*</span>
+
+          <div
+            className="itemUser"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "120px 1fr",
+              gap: "16px",
+              marginBottom: "16px",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                textAlign: "right",
+                width: "100%",
+              }}
+            >
+              Địa chỉ<span className="requiredStar">*</span>
+            </div>
             <input
               type="text"
-              id="userAddress"
+              // id="userAddress"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Nhập Địa chỉ"
               className="inputItemUser"
+              style={{
+                width: "100%",
+                height: "40px",
+                padding: "8px 12px",
+                border: "1px solid #d9d9d9",
+                borderRadius: "4px",
+                boxSizing: "border-box",
+              }}
               required
             />
           </div>
-          <div className="btnAcpChange">
-            <Button type="submit">
-              <span className="titleAcp">Xác nhận</span>
+
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: "24px",
+            }}
+          >
+            <Button
+              type="submit"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minWidth: "120px",
+                height: "50px",
+                width: "16%",
+                padding: "0 24px",
+                backgroundColor: "#1890ff",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                fontWeight: "500",
+                cursor: isLoading ? "not-allowed" : "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: "0 2px 0 rgba(0, 0, 0, 0.045)",
+                opacity: isLoading ? 0.7 : 1,
+              }}
+              onMouseOver={(e) =>
+                !isLoading &&
+                (e.currentTarget.style.backgroundColor = "#40a9ff")
+              }
+              onMouseOut={(e) =>
+                !isLoading &&
+                (e.currentTarget.style.backgroundColor = "#1890ff")
+              }
+              disabled={isLoading}
+            >
+              <span
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                {isLoading ? (
+                  <>
+                    <div
+                      style={{
+                        width: "16px",
+                        height: "16px",
+                        border: "2px solid #ffffff",
+                        borderTop: "2px solid transparent",
+                        borderRadius: "50%",
+                        animation: "spin 1s linear infinite",
+                      }}
+                    />
+                    Đang xử lý...
+                  </>
+                ) : (
+                  "Xác nhận"
+                )}
+              </span>
             </Button>
           </div>
         </form>
@@ -151,5 +341,16 @@ function UpdateUser() {
     </div>
   );
 }
+
+const spinKeyframes = `
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
+const style = document.createElement("style");
+style.innerHTML = spinKeyframes;
+document.head.appendChild(style);
 
 export default UpdateUser;

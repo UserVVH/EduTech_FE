@@ -13,6 +13,7 @@ import ReactPaginate from "react-paginate";
 import { FaStar, FaEye, FaEdit, FaTrash, FaDownload } from "react-icons/fa";
 import imgDocument from "../assets/itemDocument.png";
 import { toast } from "react-toastify";
+import { Tooltip } from "antd";
 
 function User() {
   const dispatch = useDispatch();
@@ -275,7 +276,11 @@ function User() {
           ) : (
             <div className="containerList">
               {currentItems.map((item, index) => (
-                <div key={index} className="itemDocument">
+                <div
+                  key={index}
+                  className="itemDocument"
+                  style={{ height: "550px", cursor: "pointer" }}
+                >
                   <img
                     src={item.image || imgDocument}
                     alt={item.title}
@@ -285,24 +290,147 @@ function User() {
                     }}
                   />
                   <div className="listInfo">
-                    <div className="titleInfo">{item.title}</div>
-                    <div className="listItemInfo">
-                      <TbClipboardList />
-                      Thể loại: {item.categoryName}
+                    <Tooltip title={item.title}>
+                      <div
+                        className="titleInfo"
+                        style={{
+                          fontWeight: 600,
+                          fontSize: "16px",
+                          marginBottom: "8px",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          lineHeight: "1.3",
+                          minHeight: "42px",
+                          textAlign: "left",
+                        }}
+                      >
+                        {item.title}
+                      </div>
+                    </Tooltip>
+                    <div
+                      className="listItemInfo"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+                        color: "#555",
+                        justifyContent: "flex-start",
+                        textAlign: "left",
+                        marginBottom: "8px",
+                        padding: "6px 0",
+                        "& svg": {
+                          marginRight: "8px",
+                          color: "#1890ff",
+                          fontSize: "16px",
+                        },
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "20px !important",
+                          display: "flex !important",
+                          alignItems: "center !important",
+                          justifyContent: "flex-start !important",
+                        }}
+                      >
+                        <TbClipboardList />
+                      </div>
+                      <span>Thể loại: {item.categoryName}</span>
                     </div>
-                    <div className="listItemInfo">
-                      <WiTime5 />
-                      Thời gian: {item.relativeCreatedAt}
+                    <div
+                      className="listItemInfo"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+                        color: "#555",
+                        justifyContent: "flex-start",
+                        textAlign: "left",
+                        marginBottom: "8px",
+                        padding: "6px 0",
+                        "& svg": {
+                          marginRight: "8px",
+                          color: "#1890ff",
+                          fontSize: "16px",
+                        },
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "20px !important",
+                          display: "flex !important",
+                          alignItems: "center !important",
+                          justifyContent: "flex-start !important",
+                        }}
+                      >
+                        <WiTime5 />
+                      </div>
+                      <span>Thời gian: {item.relativeCreatedAt}</span>
                     </div>
-                    <div className="listItemInfo">
-                      <LuUser2 />
-                      {item.userName}
+                    <div
+                      className="listItemInfo"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+                        color: "#555",
+                        justifyContent: "flex-start",
+                        textAlign: "left",
+                        marginBottom: "8px",
+                        padding: "6px 0",
+                        "& svg": {
+                          marginRight: "8px",
+                          color: "#1890ff",
+                          fontSize: "16px",
+                        },
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "20px !important",
+                          display: "flex !important",
+                          alignItems: "center !important",
+                          justifyContent: "flex-start !important",
+                        }}
+                      >
+                        <LuUser2 />
+                      </div>
+                      <span>{item.userName}</span>
                     </div>
-                    <div className="listItemInfoAcp">
-                      <FiCheckCircle />
-                      {getStatusText(item.status)}
+                    <div
+                      className="listItemInfoAcp"
+                      style={{
+                        fontSize: "14px !important",
+                        marginBottom: "4px !important",
+                        display: "flex !important",
+                        alignItems: "center !important",
+                        justifyContent: "flex-start !important",
+                        gap: "8px !important",
+                        whiteSpace: "nowrap !important",
+                        width: "100% !important",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "20px !important",
+                          display: "flex !important",
+                          alignItems: "center !important",
+                          justifyContent: "flex-start !important",
+                        }}
+                      >
+                        <FiCheckCircle />
+                      </div>
+                      <span>{getStatusText(item.status)}</span>
                     </div>
-                    <div className="star-rating">
+                    <div
+                      className="star-rating"
+                      style={{
+                        paddingTop: "8px",
+                      }}
+                    >
                       {[1, 2, 3, 4, 5].map((star) => (
                         <FaStar
                           key={star}
@@ -312,11 +440,18 @@ function User() {
                     </div>
                   </div>
                   <div className="listItemFeature">
-                    <div className="grView">
+                    <div
+                      className="grView"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "1px",
+                      }}
+                    >
                       <FaEye
-                      className="iconEye"
-                      title="Xem"
-                      onClick={() => handleViewClick(item.id)}
+                        className="iconEye"
+                        title="Xem"
+                        onClick={() => handleViewClick(item.id)}
                       />
                       <label className="view">{item.view}</label>
                     </div>

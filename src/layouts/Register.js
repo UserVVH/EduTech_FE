@@ -204,7 +204,7 @@ function Register() {
       }, 3000);
     } catch (err) {
       if (err.response && err.response.status === 409) {
-        toast.error("Mã đã tồn tại", {
+        toast.error("Mã số đã tồn tại", {
           position: "top-center",
           autoClose: 3000,
           closeOnClick: true,

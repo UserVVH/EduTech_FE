@@ -7,6 +7,8 @@ import ReactPaginate from "react-paginate";
 import { FaStar, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import imgDocument from "../assets/itemDocument.png";
+import styles from "./css/ListDocumentCreateMy.module.css";
+import { Badge } from "antd";
 
 function ListDocumentCreateMy() {
   const [documents, setDocuments] = useState([]);
@@ -77,6 +79,19 @@ function ListDocumentCreateMy() {
     }
   };
 
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case "VERIFIED":
+        return styles.statusVerified;
+      case "CREATED":
+        return styles.statusCreated;
+      case "REJECTED":
+        return styles.statusRejected;
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="containerListDocumentCreate">
       <div className="titleListUser">Danh sách tài liệu chờ duyệt</div>
@@ -88,48 +103,64 @@ function ListDocumentCreateMy() {
         <div className="loadingDocument">Không có tài liệu nào.</div>
       ) : (
         <div>
-          <div className="containerListUserDocument">
+          <div
+            className="containerListUserDocument"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: "20px",
+              padding: "20px",
+              justifyContent: "flex-start",
+            }}
+          >
             {displayedDocuments.map((document) => (
               <div
-                className="itemDocumentOfUser"
+                className={styles.itemDocumentOfUser}
                 key={document.id}
                 onClick={() => handleItemClick(document.id)}
               >
                 <img
                   src={document.image}
                   alt={document.title}
-                  className="imgDocument"
+                  className={styles.imgDocument}
                   onError={(e) => {
-                    e.target.src = imgDocument; // Thay đổi src nếu không tải được
+                    e.target.src = imgDocument;
                   }}
                 />
-                <div className="listInfo">
-                  <div className="titleInfo">{document.title}</div>
-                  <div className="listItemInfo">
+                <div className={styles.listInfo}>
+                  <div className={styles.titleInfo}>{document.title}</div>
+                  <div className={styles.listItemInfo}>
                     <TbClipboardList />
                     Thể loại: {document.categoryName}
                   </div>
-                  <div className="listItemInfo">
+                  <div className={styles.listItemInfo}>
                     <WiTime5 />
                     Thời gian: {document.relativeCreatedAt}
                   </div>
-                  <div className="listItemInfo">
+                  <div className={styles.listItemInfo}>
                     <LuUser2 />
                     {document.userName}
                   </div>
-                  <div className="listItemInfo">
+                  <div className={styles.listItemInfo}>
                     <FaEye />
-                    <span className="titleView">Lượt xem: {document.view}</span>
+                    <span>Lượt xem: {document.view}</span>
                   </div>
-                  <div className="listItemInfoAcp">
+                  <div
+                    className={`${styles.listItemInfoAcp} ${
+                      styles.statusBadge
+                    } ${getStatusStyle(document.status)}`}
+                  >
                     <FiCheckCircle />
                     {getStatusText(document.status)}
                   </div>
-                  <div className="star-rating">
+                  <div className={styles.starRating}>
                     {[1, 2, 3, 4, 5].map((star) => (
                       <FaStar
                         key={star}
-                        className={`star ${star <= 5 ? "filled" : ""}`}
+                        className={`${styles.star} ${
+                          star <= document.rating ? styles.filled : styles.empty
+                        }`}
                       />
                     ))}
                   </div>
