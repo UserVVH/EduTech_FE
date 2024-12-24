@@ -54,7 +54,11 @@ function UpdateDocuments() {
           setPublisher(data.publisher);
           setPublishingYear(data.publishingYear);
           setImagePreview(data.image);
-          setCategoryId(data.categoryId);
+          if (categories.length > 0) {
+            setCategoryId(
+              categories.find((cat) => cat.name === data.categoryName)?.id
+            );
+          }
           setCategoryName(data.categoryName);
 
           if (data.pdfFiles) {
@@ -67,7 +71,7 @@ function UpdateDocuments() {
 
       fetchDocumentDetails();
     }
-  }, [documentId]);
+  }, [documentId, categories]);
 
   const handlePdfUpload = (file) => {
     // Ensure file is a File object
@@ -84,7 +88,6 @@ function UpdateDocuments() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(categoryId);
 
     if (!title) {
       toast.error("Bạn chưa nhập tên tài liệu.");
@@ -242,36 +245,12 @@ function UpdateDocuments() {
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
                 >
-                  {/* <option value="">Chọn thể loại</option>
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>
                       {category.name}
                     </option>
-                  ))} */}
-                  <option value="">Chọn thể loại</option>
-                  {categories.map((category) => (
-                    <option
-                      key={category.id}
-                      value={category.id}
-                      selected={category.name === categoryName} // Kiểm tra và gán thuộc tính `selected`
-                    >
-                      {category.name}
-                    </option>
                   ))}
                 </select>
-                {/* <div className="itemFormUpload">
-                  <label className="titleLabel" htmlFor="categoryName">
-                    Thể loại mới (nếu có)
-                  </label>
-                  <input
-                    type="text"
-                    id="categoryName"
-                    className="inputItem"
-                    placeholder="Nhập tên thể loại mới"
-                    value={categoryName}
-                    onChange={(e) => setCategoryName(e.target.value)}
-                  />
-                </div> */}
               </div>
 
               <div className="itemFormUpload">
