@@ -116,9 +116,12 @@ function ListDocumentVerified() {
           </div>
           <div className="titleNameUser">{user.fullname || "Tên"}</div>
 
-          <div className="titleEmailUser">Email: {user.email || "Email"}</div>
+          {/* <div className="titleEmailUser">Email: {user.email || "Email"}</div> */}
+          <div className="titleEmailUser">
+            Mã số: {user.identifier || "Mã số"}
+          </div>
           <div className="titleAddreesUser">
-            Địa chỉ: {user.address || "Không có"}
+            Địa chỉ: {user.address || "Không có địa chỉ"}
           </div>
         </div>
       ) : (

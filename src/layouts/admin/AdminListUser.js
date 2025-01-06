@@ -18,43 +18,6 @@ function AdminListUser() {
   const usersPerPage = 10;
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:8080/api/admin/users", {
-  //         method: "GET",
-  //         headers: {
-  //           Authorization: `${localStorage.getItem("authToken")}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch users");
-  //       }
-
-  //       const data = await response.json();
-
-  //       // Đọc trạng thái người dùng từ localStorage và cập nhật lại
-  //       const savedUsers = JSON.parse(localStorage.getItem("users")) || [];
-
-  //       const updatedUsers = data.map((user) => {
-  //         const savedUser = savedUsers.find((saved) => saved.id === user.id);
-  //         return savedUser ? { ...user, status: savedUser.status } : user;
-  //       });
-
-  //       setUsers(updatedUsers);
-  //       setFilteredUsers(updatedUsers);
-  //     } catch (err) {
-  //       setError(err.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchUsers();
-  // }, []);
-
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -80,7 +43,9 @@ function AdminListUser() {
           return savedUser ? { ...user, status: savedUser.status } : user;
         });
 
-        // Sắp xếp người dùng theo thời gian tạo (createdAt mới nhất trước)
+        console.log(updatedUsers);
+
+        // Mặc định Sắp xếp người dùng theo thời gian tạo (createdAt mới nhất trước)
         const sortedUsers = updatedUsers.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
@@ -273,9 +238,9 @@ function AdminListUser() {
                     <th>Mã số</th>
                     <th>Email</th>
                     <th>Địa chỉ</th>
-                    <th>Tổng tài liệu</th>
                     <th>Quyền</th>
-                    <th>User</th>
+                    <th>Chi tiết</th>
+                    <th>Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>

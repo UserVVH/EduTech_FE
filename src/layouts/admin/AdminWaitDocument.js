@@ -8,6 +8,7 @@ import HeaderAdmin from "../../components/Admin/HeaderAdmin/HeaderAdmin";
 import { toast, ToastContainer } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "antd";
 
 function AdminWaitDocument() {
   const [waitingDocuments, setWaitingDocuments] = useState([]);
@@ -221,7 +222,14 @@ function AdminWaitDocument() {
                         }}
                       />
                     </td>
-                    <td>{document.title}</td>
+                    <td>
+                      <Tooltip title={document.title}>
+                        <div style={{ cursor: "pointer" }}>
+                          {document.title.split(" ").slice(0, 3).join(" ")}
+                          {document.title.split(" ").length > 3 ? "..." : ""}
+                        </div>
+                      </Tooltip>
+                    </td>
                     <td>{document.userName}</td>
                     <td>{document.view}</td>
                     <td>{document.categoryName}</td>
@@ -230,6 +238,8 @@ function AdminWaitDocument() {
                         className={`status ${
                           getStatusInfo(document.status).className
                         }`}
+                        // style={{ width: "91px", padding: "8px 0px" }}
+                        style={{ padding: "8px 0px" }}
                       >
                         {getStatusInfo(document.status).text}
                       </div>
@@ -240,12 +250,14 @@ function AdminWaitDocument() {
                         onClick={() =>
                           handleAdminDetailDocumentClick(document.id)
                         }
+                        style={{ width: "100%" }}
                       >
                         Xem
                       </button>
                       <button
                         className="btnDelete"
                         onClick={() => handleDeleteDocument(document.id)}
+                        style={{ width: "100%", marginLeft: 0 }}
                       >
                         Xoá
                       </button>

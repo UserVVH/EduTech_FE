@@ -143,7 +143,7 @@ function AdminDocumentApproved() {
                   <th>Lượt xem</th>
                   <th>Thể loại</th>
                   <th>Trạng thái</th>
-                  <th>Tài liệu sở hữu</th>
+                  <th>Chi tiết</th>
                   <th>Sửa tài liệu</th>
                   <th>Xoá tài liệu</th>
                 </tr>

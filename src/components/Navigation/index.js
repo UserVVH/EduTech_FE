@@ -160,7 +160,7 @@ function Navigation() {
                 >
                   <div className="itemDropdown">
                     <MdAdminPanelSettings className="iconAdminManage" />
-                    <span className="ml">Quản lí ADMIN</span>
+                    <span className="ml">Quản lý ADMIN</span>
                   </div>
                 </div>
               )}

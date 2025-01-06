@@ -94,17 +94,46 @@ function ListDocumentVerifiedMy() {
                 className="itemDocumentOfUser"
                 key={document.id}
                 onClick={() => handleItemClick(document.id)}
+                style={{
+                  marginBottom: "38%",
+                  cursor: "pointer",
+                }}
               >
                 <img
                   src={document.image}
                   alt={document.title}
                   className="imgDocument"
                   onError={(e) => {
-                    e.target.src = imgDocument; // Thay đổi src nếu không tải được
+                    e.target.src = imgDocument;
                   }}
                 />
-                <div className="listInfo">
-                  <div className="titleInfo">{document.title}</div>
+                <div
+                  className="listInfo"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "8px",
+                    width: "100%",
+                  }}
+                >
+                  <div
+                    className="titleInfo"
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "18px",
+                      minHeight: "48px",
+                      textAlign: "center",
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      cursor: "pointer",
+                    }}
+                    title={document.title}
+                  >
+                    {document.title}
+                  </div>
                   <div className="listItemInfo">
                     <TbClipboardList />
                     Thể loại: {document.categoryName}
@@ -121,11 +150,14 @@ function ListDocumentVerifiedMy() {
                     <FaEye />
                     <span className="titleView">Lượt xem: {document.view}</span>
                   </div>
-                  <div className="listItemInfoAcp">
+                  <div className="listItemInfoAcp" style={{ width: "100%" }}>
                     <FiCheckCircle />
                     {getStatusText(document.status)}
                   </div>
-                  <div className="star-rating">
+                  <div
+                    className="star-rating"
+                    style={{ margin: "0px", width: "100%" }}
+                  >
                     {[1, 2, 3, 4, 5].map((star) => (
                       <FaStar
                         key={star}

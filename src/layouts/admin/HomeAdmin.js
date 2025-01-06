@@ -139,21 +139,6 @@ function HomeAdmin() {
     ],
   };
 
-  // const options = {
-  //   responsive: true,
-  //   plugins: {
-  //     tooltip: {
-  //       mode: "index",
-  //       intersect: false,
-  //     },
-  //   },
-  //   scales: {
-  //     y: {
-  //       beginAtZero: true,
-  //     },
-  //   },
-  // };
-
   const options = {
     responsive: true,
     plugins: {

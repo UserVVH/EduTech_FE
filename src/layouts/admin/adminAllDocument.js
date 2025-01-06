@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate"; // Import ReactPaginate
 import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast
+import { Tooltip } from "antd";
 
 function AdminAllDocument() {
   const [documents, setDocuments] = useState([]); // State to hold document data
@@ -76,7 +77,10 @@ function AdminAllDocument() {
 
   // Slice the documents to only show items for the current page
   const offset = currentPage * itemsPerPage;
-  const currentDocuments = filteredDocuments.slice(offset, offset + itemsPerPage);
+  const currentDocuments = filteredDocuments.slice(
+    offset,
+    offset + itemsPerPage
+  );
 
   const handleAdminCreateDocumentClick = () => {
     navigate("/admin/adminCreateDocument");
@@ -96,7 +100,11 @@ function AdminAllDocument() {
       case "VERIFIED":
         return { text: "Đã duyệt", className: "status-verified" }; // Green
       case "CREATED":
-        return { text: "Chưa duyệt", className: "status-created" }; // Blue
+        return {
+          text: "Chưa duyệt",
+          className: "status-created",
+          style: { width: "104%" },
+        }; // Blue
       case "REJECTED":
         return { text: "Từ chối", className: "status-rejected" }; // Red
       default:
@@ -285,69 +293,79 @@ function AdminAllDocument() {
                   <th>Lượt xem</th>
                   <th>Thể loại</th>
                   <th>Trạng thái</th>
-                  <th>Tài liệu sở hữu</th>
+                  <th>Chi tiết</th>
                   <th>Sửa tài liệu</th>
                   <th>Xoá tài liệu</th>
                 </tr>
               </thead>
               <tbody>
-              {currentDocuments.length > 0 ? (
-              currentDocuments.map((document, index) => (
-                  <tr key={document.id}>
-                    <td>{offset + index + 1}</td>
-                    <td>
-                      <img
-                        src={document.image}
-                        alt="User"
-                        className="userImage"
-                        onError={(e) => {
-                          e.target.src = avatar;
-                        }}
-                      />
-                    </td>
-                    <td>{document.title}</td>
-                    <td>{document.userName}</td>
-                    <td>{document.view}</td>
-                    <td>{document.categoryName}</td>
-                    <td>
-                      <div
-                        className={`status ${
-                          getStatusInfo(document.status).className
-                        }`}
-                      >
-                        {getStatusInfo(document.status).text}
-                      </div>
-                    </td>
-                    <td>
-                      <button
-                        className="btnOpenDocument"
-                        onClick={() =>
-                          handleAdminDetailDocumentClick(document.id)
-                        } // Pass document ID
-                      >
-                        Xem
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className="btnUpdateDocument"
-                        onClick={() =>
-                          handleAdminUpdateDocumentClick(document.id)
-                        } // Pass document ID
-                      >
-                        Sửa
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className="btnDelete"
-                        onClick={() => handleDeleteDocument(document.id)} // Pass document ID for deletion
-                      >
-                        Xoá
-                      </button>
-                    </td>
-                  </tr>
-                  )) 
+                {currentDocuments.length > 0 ? (
+                  currentDocuments.map((document, index) => (
+                    <tr key={document.id}>
+                      <td>{offset + index + 1}</td>
+                      <td>
+                        <img
+                          src={document.image}
+                          alt="User"
+                          className="userImage"
+                          onError={(e) => {
+                            e.target.src = avatar;
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <Tooltip title={document.title}>
+                          <span style={{ cursor: "pointer" }}>
+                            {document.title.split(" ").slice(0, 3).join(" ") +
+                              (document.title.split(" ").length > 3
+                                ? "..."
+                                : "")}
+                          </span>
+                        </Tooltip>
+                      </td>
+                      <td>{document.userName}</td>
+                      <td>{document.view}</td>
+                      <td>{document.categoryName}</td>
+                      <td>
+                        <div
+                          className={`status ${
+                            getStatusInfo(document.status).className
+                          }`}
+                          style={getStatusInfo(document.status).style}
+                        >
+                          {getStatusInfo(document.status).text}
+                        </div>
+                      </td>
+                      <td>
+                        <button
+                          className="btnOpenDocument"
+                          onClick={() =>
+                            handleAdminDetailDocumentClick(document.id)
+                          } // Pass document ID
+                        >
+                          Xem
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="btnUpdateDocument"
+                          onClick={() =>
+                            handleAdminUpdateDocumentClick(document.id)
+                          } // Pass document ID
+                        >
+                          Sửa
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="btnDelete"
+                          onClick={() => handleDeleteDocument(document.id)} // Pass document ID for deletion
+                        >
+                          Xoá
+                        </button>
+                      </td>
+                    </tr>
+                  ))
                 ) : (
                   <div className="noDocuments">Không có tài liệu nào</div>
                 )}

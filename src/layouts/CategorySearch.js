@@ -81,6 +81,7 @@ function CategorySearch() {
                 className="item"
                 key={item.id}
                 onClick={() => handleItemClick(item.id)}
+                style={{ cursor: "pointer" }}
               >
                 <div className="imgAvatarCategory">
                   <img
@@ -93,7 +94,17 @@ function CategorySearch() {
                   />
                 </div>
                 <div className="itemCategorySearch">
-                  <div className="titleNameCategory">{item.title}</div>
+                  <div
+                    className="titleNameCategory"
+                    title={item.title}
+                    style={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {item.title.split(" ").slice(0, 3).join(" ") + "..."}
+                  </div>
                   <div className="listItemInfoHome">
                     <TbClipboardList />
                     Thể loại: {item.categoryName}

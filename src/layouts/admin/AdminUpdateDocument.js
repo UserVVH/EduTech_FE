@@ -66,7 +66,12 @@ function AdminUpdateDocument() {
           setPublisher(data.publisher);
           setPublishingYear(data.publishingYear);
           setImagePreview(data.image);
-          setCategoryId(data.categoryId);
+          // setCategoryId(data.categoryId);
+          if (categories.length > 0) {
+            setCategoryId(
+              categories.find((cat) => cat.name === data.categoryName)?.id
+            );
+          }
           setCategoryName(data.categoryName);
 
           if (data.pdfFiles) {
@@ -78,7 +83,7 @@ function AdminUpdateDocument() {
       };
       fetchDocumentDetails();
     }
-  }, [documentId]);
+  }, [documentId, categories]);
 
   const handlePdfUpload = (file) => {
     // Ensure file is a File object
@@ -92,117 +97,6 @@ function AdminUpdateDocument() {
       }
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!title) {
-  //     toast.error("Bạn chưa nhập tên tài liệu.", {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  //     return;
-  //   }
-
-  //   if (!publishingYear) {
-  //     toast.error("Bạn chưa nhập năm xuất bản.", {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  //     return;
-  //   }
-
-  //   if (!categoryId) {
-  //     toast.error("Bạn chưa chọn thể loại.", {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  //     return;
-  //   }
-
-  //   if (!description) {
-  //     toast.error("Bạn chưa nhập mô tả chi tiết.", {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  //     return;
-  //   }
-
-  //   setIsLoading(true);
-
-  //   try {
-  //     const token = localStorage.getItem("authToken");
-  //     if (!token) throw new Error("No token found");
-
-  //     const formData = new FormData();
-  //     formData.append("title", title);
-  //     formData.append("description", description);
-  //     formData.append("author", author);
-  //     formData.append("publisher", publisher);
-  //     formData.append("publishingYear", publishingYear);
-  //     if (categoryId) {
-  //       formData.append("categoryId", categoryId);
-  //     } else if (categoryName) {
-  //       formData.append("categoryName", categoryName);
-  //     }
-  //     if (image) formData.append("image", image);
-  //     if (pdfFile) formData.append("pdfFiles", pdfFile);
-
-  //     const response = await fetch(
-  //       `http://localhost:8080/api/admin/documents/${documentId}`,
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           Authorization: `${token}`,
-  //         },
-  //         body: formData,
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       const errorText = await response.text();
-  //       throw new Error(`Failed to update document: ${errorText}`);
-  //     }
-
-  //     toast.success("Chỉnh sửa tài liệu thành công!", {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  //     setTimeout(() => {
-  //       navigate("/admin/adminAllDocument");
-  //     }, 1000);
-  //   } catch (err) {
-  //     setError(`Failed to update document: ${err.message}`);
-  //   } finally {
-  //     // Stop loading
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -371,7 +265,7 @@ function AdminUpdateDocument() {
                     <label className="titleLabel" htmlFor="categoryId">
                       Hãy Chọn Thể loại<span className="requiredStar">*</span>
                     </label>
-                    <select
+                    {/* <select
                       id="categoryId"
                       className="inputItem"
                       value={categoryId || ""}
@@ -384,8 +278,20 @@ function AdminUpdateDocument() {
                           {category.name}
                         </option>
                       ))}
+                    </select> */}
+                    <select
+                      id="categoryId"
+                      className="inputItem"
+                      value={categoryId}
+                      onChange={(e) => setCategoryId(e.target.value)}
+                    >
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
                     </select>
-                    <div className="itemFormUpload">
+                    {/* <div className="itemFormUpload">
                       <label className="titleLabel" htmlFor="categoryName">
                         Thể loại mới (nếu có)
                       </label>
@@ -397,7 +303,7 @@ function AdminUpdateDocument() {
                         value={categoryName}
                         onChange={(e) => setCategoryName(e.target.value)}
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* <div className="itemFormUpload">

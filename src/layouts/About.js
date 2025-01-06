@@ -1,5 +1,5 @@
 import React from "react";
-import img from "../assets/iconAva.png";
+import img from "../assets/MyPhoto.jpg";
 
 function About() {
   return (
@@ -7,7 +7,7 @@ function About() {
       <div className="containerAbout">
         <img src={img} alt="avatar" className="imgAbout" />
         <div className="titleNameAbout">Họ Tên: Vũ Văn Hải</div>
-        <div className="itemMssvAbout">MSSV: 642328</div>
+        <div className="itemMssvAbout">MSV: 642328</div>
         <div className="itemClassABout">Lớp: K64ATTT</div>
         <div className="itemText">
           <p>

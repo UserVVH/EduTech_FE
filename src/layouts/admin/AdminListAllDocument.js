@@ -12,6 +12,7 @@ import { FiSearch } from "react-icons/fi";
 import Button from "../../components/Button";
 import imageDoc from "../../assets/itemDocument.png";
 import defaultAvatar from "../../assets/iconAva.png";
+import { Tooltip } from "antd";
 
 function AdminListAllDocument() {
   const { userId } = useParams(); // Dynamic userId from URL
@@ -206,6 +207,9 @@ function AdminListAllDocument() {
                     <div className="titleRole">{role || "Người Dùng"}</div>
                   </div>
                   <div className="titleNameUser">{user.fullname || "Name"}</div>
+                  <div className="titleEmailUser">
+                    Mã số: {user.identifier || "Mã số"}
+                  </div>
 
                   <div className="titleEmailUser">
                     Email: {user.email || "Email"}
@@ -259,6 +263,7 @@ function AdminListAllDocument() {
                       className="itemDocumentOfUser"
                       key={document.id}
                       onClick={() => handleItemClick(document.id)}
+                      style={{ cursor: "pointer" }}
                     >
                       <img
                         src={document.image}
@@ -269,7 +274,12 @@ function AdminListAllDocument() {
                         }}
                       />
                       <div className="listInfo">
-                        <div className="titleInfo">{document.title}</div>
+                        <Tooltip title={document.title}>
+                          <div className="titleInfo">
+                            {document.title.split(" ").slice(0, 3).join(" ") +
+                              "..."}
+                          </div>
+                        </Tooltip>
                         <div className="listItemInfo">
                           <TbClipboardList />
                           Thể loại: {document.categoryName}
