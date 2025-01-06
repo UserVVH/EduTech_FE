@@ -92,7 +92,7 @@ const Footer = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Nhập email...."
+              placeholder="Nhập email của bạn...."
               className="subscribeInput"
             />
             <Button onClick={handleSubscribe} className="subscribeButton">

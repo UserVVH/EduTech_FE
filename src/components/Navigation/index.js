@@ -29,12 +29,21 @@ function Navigation() {
     navigate("/");
   };
 
+  // const handleSearch = () => {
+  //   if (searchTerm.trim()) {
+  //     navigate(
+  //       `/detailsearch?searchText=${encodeURIComponent(
+  //         searchTerm.trim()
+  //       )}&type=title,category`
+  //     );
+  //   }
+  // };
   const handleSearch = () => {
     if (searchTerm.trim()) {
       navigate(
         `/detailsearch?searchText=${encodeURIComponent(
           searchTerm.trim()
-        )}&type=title,category`
+        )}&type=title,user,category`
       );
     }
   };
