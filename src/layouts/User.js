@@ -161,26 +161,6 @@ function User() {
     setCurrentPage(0);
   };
 
-  const handleDownloadClick = (docId, title, fileUrl) => {
-    // Nếu fileUrl không có, không làm gì cả
-    if (!fileUrl) {
-      toast.error("Không tìm thấy file để tải về.", {
-        position: "top-center",
-        autoClose: 1000,
-        closeOnClick: true,
-        className: "custom-toast",
-        progressClassName: "custom-progress",
-      });
-      return;
-    }
-
-    // Tạo một thẻ <a> để tải file
-    const link = document.createElement("a");
-    link.href = fileUrl; // URL của tài liệu
-    link.download = title; // Đặt tên file là tiêu đề tài liệu
-    link.click(); // Tự động click để tải file
-  };
-
   const getStatusText = (status) => {
     switch (status) {
       case "VERIFIED":
@@ -279,7 +259,11 @@ function User() {
                 <div
                   key={index}
                   className="itemDocument"
-                  style={{ height: "550px", cursor: "pointer" }}
+                  style={{
+                    height: "550px",
+                    cursor: "pointer",
+                    overflow: "hidden",
+                  }}
                 >
                   <img
                     src={item.image || imgDocument}

@@ -169,9 +169,22 @@ const CreateDocument = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(
-          `Failed to create document: ${response.statusText} - ${errorText}`
+        toast.error(
+          `Tạo tài liệu thất bại: ${JSON.parse(errorText).pdfFiles}`,
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
         );
+        return;
+        // throw new Error(
+        //   `Failed to create document: ${response.statusText} - ${errorText}`
+        // );
       }
 
       const result = await response.json();

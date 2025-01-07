@@ -119,12 +119,24 @@ function AdminManageUser() {
                           <td>{user.totalViews}</td>
                           <td>{user.documentCount}</td>
                           <td>
-                            <div className="userRoleName">{user.roleName}</div>
+                            <div
+                              className="userRoleName"
+                              style={{
+                                backgroundColor: "rgb(83, 98, 231)",
+                                color: "#ffcc00",
+                              }}
+                            >
+                              {user.roleName}
+                            </div>
                           </td>
                           <td>
                             <button
                               className="btnOpen"
                               onClick={() => handleUserClick(user.userId)}
+                              style={{
+                                backgroundColor: "rgb(83, 98, 231)",
+                                color: "#ffcc00",
+                              }}
                             >
                               Xem
                             </button>

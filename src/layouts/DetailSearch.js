@@ -119,7 +119,7 @@ function DetailSearch() {
         </div>
       </div>
 
-      <div className="containerListResult" style={{ height: "623px" }}>
+      <div className="containerListResult">
         <div className="listResult">
           {loading ? (
             <div className="titleLoading">Đang tìm kiếm...</div>

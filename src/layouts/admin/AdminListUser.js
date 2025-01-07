@@ -36,17 +36,17 @@ function AdminListUser() {
         const data = await response.json();
 
         // Đọc trạng thái người dùng từ localStorage và cập nhật lại
-        const savedUsers = JSON.parse(localStorage.getItem("users")) || [];
+        // const savedUsers = JSON.parse(localStorage.getItem("users")) || [];
 
-        const updatedUsers = data.map((user) => {
-          const savedUser = savedUsers.find((saved) => saved.id === user.id);
-          return savedUser ? { ...user, status: savedUser.status } : user;
-        });
+        // const updatedUsers = data.map((user) => {
+        //   const savedUser = savedUsers.find((saved) => saved.id === user.id);
+        //   return savedUser ? { ...user, status: savedUser.status } : user;
+        // });
 
-        console.log(updatedUsers);
+        // console.log(updatedUsers);
 
         // Mặc định Sắp xếp người dùng theo thời gian tạo (createdAt mới nhất trước)
-        const sortedUsers = updatedUsers.sort((a, b) => {
+        const sortedUsers = data.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
 
@@ -63,7 +63,7 @@ function AdminListUser() {
   }, []);
 
   useEffect(() => {
-    // Filter users based on the search term
+    // Tìm kiếm người dùng theo tên, mã số hoặc email
     const filtered = users.filter((user) => {
       const fullNameMatch = user.fullname
         ? user.fullname.toLowerCase().includes(searchTerm.toLowerCase())
