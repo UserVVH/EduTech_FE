@@ -132,7 +132,7 @@ export const register = (formData) => async (dispatch) => {
     if (!response.ok) {
       const errorText = await response.text();
       if (errorText.includes("Identifier đã được sử dụng")) {
-        throw new Error("Mã đã tồn tại");
+        throw new Error("Mã số đã tồn tại");
       }
       throw new Error(errorText || "Đăng ký thất bại");
     }

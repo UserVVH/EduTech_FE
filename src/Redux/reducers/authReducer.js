@@ -22,11 +22,11 @@ const authReducer = (state = initialState, action) => {
       };
     case "LOGIN_SUCCESS":
       return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload,
-        loading: false,
-        error: null,
+        ...state, // Sao chép toàn bộ thuộc tính từ state hiện tại
+        isAuthenticated: true, // Ghi đè giá trị của isAuthenticated, đánh dấu đã đăng nhập
+        user: action.payload, // Ghi đè giá trị của user bằng dữ liệu từ action
+        loading: false, // Ghi đè giá trị của loading, đánh dấu kết thúc quá trình loading
+        error: null, // Ghi đè giá trị của error, xóa bỏ thông báo lỗi
       };
     case "LOGIN_FAILURE":
       return {

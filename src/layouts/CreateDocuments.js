@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,14 +49,22 @@ const CreateDocument = () => {
 
   const handlePdfUpload = (files) => {
     const fileArray = Array.from(files);
-    console.log("file array ", fileArray);
 
-    // Chỉ lấy file đầu tiên trong danh sách được upload
-    const uploadedFile = fileArray[0];
+    // Validate file type
+    const allowedTypes = ["application/pdf"];
+    const validFile = fileArray[0];
 
-    if (uploadedFile) {
-      setPdfFile([uploadedFile]); // Lưu duy nhất một file
-      setPdfFileName([uploadedFile.name]); // Lưu tên file duy nhất
+    if (validFile && !allowedTypes.includes(validFile.type)) {
+      toast.error("Chỉ chấp nhận file định dạng PDF");
+      if (pdfInputRef.current) {
+        pdfInputRef.current.value = ""; // Reset input
+      }
+      return;
+    }
+
+    if (validFile) {
+      setPdfFile([validFile]); // Lưu duy nhất một file
+      setPdfFileName([validFile.name]); // Lưu tên file duy nhất
     }
   };
 
@@ -205,6 +213,14 @@ const CreateDocument = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+
+    if (file && !allowedTypes.includes(file.type)) {
+      toast.error("Chỉ chấp nhận file định dạng JPG, JPEG hoặc PNG");
+      e.target.value = ""; // Reset input
+      return;
+    }
+
     setImage(file);
     if (file) {
       const reader = new FileReader();
@@ -246,7 +262,7 @@ const CreateDocument = () => {
                 >
                   <input
                     type="file"
-                    accept="image/*"
+                    accept=".jpg,.jpeg,.png"
                     className="fileInput"
                     onChange={handleImageChange}
                   />
@@ -335,10 +351,9 @@ const CreateDocument = () => {
                   /> */}
                   <input
                     type="file"
-                    accept="application/pdf"
+                    accept=".pdf"
                     onChange={(e) => handlePdfUpload(e.target.files)}
                     ref={pdfInputRef}
-                    multiple
                     className="fileInputCreate"
                   />
                 </div>

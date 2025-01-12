@@ -99,7 +99,7 @@ function CategorySearch() {
                     title={item.title}
                     style={{
                       whiteSpace: "nowrap",
-                      overflow: "hidden",
+                      // overflow: "hidden",
                       textOverflow: "ellipsis",
                     }}
                   >

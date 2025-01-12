@@ -41,8 +41,17 @@ function UpdateUser() {
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+      if (!validTypes.includes(file.type)) {
+        toast.error("Chỉ chấp nhận file định dạng JPG, JPEG hoặc PNG!", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+        return;
+      }
+
       setAvatar(file);
-      setAvatarPreview(URL.createObjectURL(file)); // Show preview of the selected image
+      setAvatarPreview(URL.createObjectURL(file));
 
       toast.success("Cập nhật hình ảnh thành công!", {
         position: "top-center",
@@ -120,7 +129,7 @@ function UpdateUser() {
             type="file"
             id="avatarUpload"
             onChange={handleAvatarChange}
-            accept="image/*"
+            accept="image/jpeg, image/jpg, image/png"
             style={{ display: "none" }}
           />
         </div>

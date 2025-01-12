@@ -16,6 +16,13 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginAttempted, setLoginAttempted] = useState(false);
 
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };

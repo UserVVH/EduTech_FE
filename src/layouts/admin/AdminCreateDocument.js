@@ -39,6 +39,23 @@ function AdminCreateDocument() {
 
   const handlePdfUpload = (files) => {
     const fileArray = Array.from(files);
+    const invalidFiles = fileArray.filter(
+      (file) => file.type !== "application/pdf"
+    );
+
+    if (invalidFiles.length > 0) {
+      toast.error("Chỉ chấp nhận file PDF", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+
     setPdfFile((prevFiles) => [...prevFiles, ...fileArray]);
     setPdfFileName(fileArray.map((file) => file.name));
   };
@@ -134,7 +151,7 @@ function AdminCreateDocument() {
     formData.append("publishingYear", publishingYear);
     if (categoryId) formData.append("categoryId", categoryId); // Append the selected category ID
     if (image) formData.append("image", image);
-    pdfFile.forEach((file) => formData.append("pdfFiles", file)); // Adjust this if your backend expects a different key
+    pdfFile.forEach((file) => formData.append("pdfFiles", file));
 
     try {
       const token = localStorage.getItem("authToken");
@@ -187,6 +204,22 @@ function AdminCreateDocument() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+
+    if (file && !allowedTypes.includes(file.type)) {
+      toast.error("Chỉ chấp nhận file JPG, JPEG hoặc PNG", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      e.target.value = ""; // Reset input
+      return;
+    }
+
     setImage(file);
     if (file) {
       const reader = new FileReader();
@@ -235,7 +268,7 @@ function AdminCreateDocument() {
                     >
                       <input
                         type="file"
-                        accept="image/*"
+                        accept=".jpg,.jpeg,.png"
                         className="fileInput"
                         onChange={handleImageChange}
                       />

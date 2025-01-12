@@ -27,66 +27,58 @@ function Detail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchDocument = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/api/documents/${id}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setDocument(data);
-      } catch (error) {
-        console.error("Failed to fetch document:", error);
+    const validateToken = async () => {
+      if (!authToken) {
+        toast.error("Vui lòng đăng nhập để xem tài liệu", {
+          position: "top-center",
+          autoClose: 2000,
+          closeOnClick: true,
+        });
+        navigate("/login");
+        return false;
       }
-    };
 
-    const fetchUserInfo = async () => {
-      if (!authToken) return;
       try {
         const response = await fetch("http://localhost:8080/api/user/me", {
           headers: {
             Authorization: `${authToken}`,
           },
         });
+
         if (!response.ok) {
-          throw new Error("Failed to fetch user info");
+          // Token is invalid
+          localStorage.removeItem("authToken"); // Clear invalid token
+          setAuthToken("");
+          toast.error("Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+          navigate("/login");
+          return false;
         }
-        const data = await response.json();
-        setUser(data);
+
+        return true;
       } catch (error) {
-        console.error("Failed to fetch user info:", error);
+        console.error("Token validation failed:", error);
+        localStorage.removeItem("authToken");
+        setAuthToken("");
+        navigate("/login");
+        return false;
       }
     };
 
-    const fetchComments = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/api/comments/${id}`,
-          {
-            headers: {
-              Authorization: `${authToken}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch comments");
-        }
-        const data = await response.json();
-        const sortedComments = data.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-        setComments(sortedComments);
-      } catch (error) {
-        console.error("Failed to fetch comments:", error);
-      }
+    const initializeData = async () => {
+      const isValid = await validateToken();
+      if (!isValid) return;
+
+      // Only fetch data if token is valid
+      fetchDocument();
+      fetchUserInfo();
+      fetchComments();
     };
 
-    fetchDocument();
-    fetchUserInfo();
-    fetchComments();
-  }, [id, authToken]);
+    initializeData();
+  }, [id, authToken, navigate]);
 
   const handleKeyPress = (e, isEditing, commentId) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -277,9 +269,53 @@ function Detail() {
     }
   };
 
+  const fetchDocument = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/documents/${id}`);
+      if (!response.ok) throw new Error("Failed to fetch document");
+      const data = await response.json();
+      setDocument(data);
+    } catch (error) {
+      console.error("Error fetching document:", error);
+      toast.error("Không thể tải tài liệu");
+    }
+  };
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/user/me", {
+        headers: {
+          Authorization: `${authToken}`,
+        },
+      });
+      if (!response.ok) throw new Error("Failed to fetch user info");
+      const data = await response.json();
+      setUser(data);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/comments/${id}`, {
+        headers: {
+          Authorization: `${authToken}`,
+        },
+      });
+      if (!response.ok) throw new Error("Failed to fetch comments");
+      const data = await response.json();
+      setComments(data);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
   return (
     <div className="containerDetail">
-      {!document ? (
+      {!authToken ? (
+        <div className="loading">Vui lòng đăng nhập để xem tài liệu...</div>
+      ) : !document ? (
         <div className="loading">Loading...</div>
       ) : (
         <div className="formDetail">

@@ -153,7 +153,7 @@ function Navigation() {
               e.target.src = defaultAvatar;
             }}
           />
-          <span className="userName">{user.fullname || "User"}</span>
+          <span className="userName">{user?.fullname || "User"}</span>
           {dropdownOpen && (
             <div className="dropdownMenu">
               <div className="dropdownItem" onClick={() => navigate("/user")}>
@@ -162,7 +162,7 @@ function Navigation() {
                   <span className="ml">Hồ sơ của tôi</span>
                 </div>
               </div>
-              {user.role === "ADMIN" && (
+              {user?.role === "ADMIN" && (
                 <div
                   className="dropdownItem"
                   onClick={() => navigate("/admin")}

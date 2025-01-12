@@ -338,7 +338,7 @@ function Register() {
           >
             <option value="USER">Người dùng</option>
             <option value="STUDENT">Sinh viên</option>
-            <option value="TEACHER">Giáo viên</option>
+            <option value="TEACHER">Giảng viên</option>
           </select>
         </div>
 

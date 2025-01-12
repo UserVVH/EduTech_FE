@@ -74,7 +74,16 @@ function UpdateDocuments() {
   }, [documentId, categories]);
 
   const handlePdfUpload = (file) => {
-    // Ensure file is a File object
+    // Validate file type
+    if (file && file.type !== "application/pdf") {
+      toast.error("Chỉ chấp nhận file định dạng PDF");
+      if (pdfInputRef.current) {
+        pdfInputRef.current.value = null;
+      }
+      return;
+    }
+
+    // Ensure file is a File object and process it
     if (file instanceof File) {
       setPdfFile(file);
       setPdfFileName(file.name);
@@ -163,6 +172,15 @@ function UpdateDocuments() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (file && !validTypes.includes(file.type)) {
+      toast.error("Chỉ chấp nhận file định dạng JPG, JPEG hoặc PNG");
+      e.target.value = ""; // Reset input
+      return;
+    }
+
     setImage(file);
     if (file) {
       const reader = new FileReader();
@@ -195,7 +213,7 @@ function UpdateDocuments() {
                 >
                   <input
                     type="file"
-                    accept="image/*"
+                    accept=".jpg,.jpeg,.png"
                     className="fileInput"
                     onChange={handleImageChange}
                   />

@@ -97,7 +97,7 @@ function NavBar() {
           >
             <PiUserList />
             {isExpanded && (
-              <span className="titleAdminManege">Quản lí người dùng</span>
+              <span className="titleAdminManege">Quản lý người dùng</span>
             )}
           </div>{" "}
           <div
@@ -107,7 +107,7 @@ function NavBar() {
             <MdManageAccounts />
             {isExpanded && (
               <span className="titleAdminManege">
-                <span>Quản lí tài liệu</span>{" "}
+                <span>Quản lý tài liệu</span>{" "}
                 <div className="iconDownUp">
                   {isDropdownOpen ? <FaChevronUp /> : <FaChevronDown />}
                 </div>
@@ -152,7 +152,7 @@ function NavBar() {
           >
             <BiCategory />
             {isExpanded && (
-              <span className="titleAdminManege">Quản lí thể loại</span>
+              <span className="titleAdminManege">Quản lý thể loại</span>
             )}
           </div>
           <div
