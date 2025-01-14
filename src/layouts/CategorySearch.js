@@ -9,19 +9,25 @@ import { LuUser2 } from "react-icons/lu";
 import { FaEye, FaStar } from "react-icons/fa";
 import { FiCheckCircle } from "react-icons/fi";
 import defaultAvatar from "../assets/itemDocument.png";
+import NotFound from "../components/NotFound";
 
 function CategorySearch() {
-  const { categoryName } = useParams(); // Lấy tên danh mục từ URL
+  const { categoryName } = useParams();
   const navigate = useNavigate();
 
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true); // Trạng thái loading
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 9;
 
   useEffect(() => {
     const fetchItems = async () => {
-      setLoading(true); // Bắt đầu loading
+      // if (!categoryName) {
+      //   navigate("/documents/category/");
+      //   return;
+      // }
+
+      setLoading(true);
       try {
         const response = await fetch(
           `http://localhost:8080/api/documents/category/${categoryName}`
@@ -30,16 +36,16 @@ function CategorySearch() {
           throw new Error("Không thể lấy dữ liệu");
         }
         const data = await response.json();
-        setItems(data); // Giả sử `data` là mảng các item
+        setItems(data);
       } catch (error) {
         console.error("Lỗi khi lấy item:", error);
       } finally {
-        setLoading(false); // Kết thúc loading
+        setLoading(false);
       }
     };
 
     fetchItems();
-  }, [categoryName]); // Chạy lại khi categoryName thay đổi
+  }, [categoryName, navigate]);
 
   // Calculate the items to display based on the current page
   const offset = currentPage * itemsPerPage;

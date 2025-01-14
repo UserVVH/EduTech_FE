@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FaStar, FaEye } from "react-icons/fa";
 import imgDocument from "../assets/itemDocument.png";
 import defaultAvatar from "../assets/iconAva.png";
+import { toast } from "react-toastify";
 
 function ListDocumentVerified() {
   const { userId } = useParams();
@@ -21,6 +22,19 @@ function ListDocumentVerified() {
   const [role, setRole] = useState("");
 
   useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      toast.error("Vui lòng đăng nhập", {
+        position: "top-center",
+        autoClose: 2000,
+        closeOnClick: true,
+      });
+      navigate("/login", {
+        replace: true,
+        state: { message: "Vui lòng đăng nhập" },
+      });
+      return;
+    }
     const fetchUserInfo = async () => {
       try {
         const response = await fetch(
@@ -52,7 +66,7 @@ function ListDocumentVerified() {
 
     fetchUserInfo();
     fetchDocuments();
-  }, [userId]);
+  }, [userId, navigate]);
 
   useEffect(() => {
     if (user) {

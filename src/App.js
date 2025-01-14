@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Header from "./layouts/Header";
 import Footer from "./layouts/Footer";
@@ -41,6 +46,7 @@ import AdminDocumentCancel from "./layouts/admin/AdminDocumentCancel";
 import AdminListUser from "./layouts/admin/AdminListUser";
 import AdminDetailUser from "./layouts/admin/AdminDetailUser";
 import { ToastContainer } from "react-toastify";
+import NotFound from "./components/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -51,11 +57,15 @@ function App() {
       // Logic to fetch user info if needed can go here
     }
   }, [dispatch]);
+
   return (
     <Router>
       <AccountStatusChecker />
       <div className="App">
         <Routes>
+          <Route path="/documents/category/" element={<NotFound />} />
+          <Route path="/documents/user/" element={<NotFound />} />
+
           <Route
             path="/admin"
             element={
@@ -178,77 +188,78 @@ function App() {
           />
 
           <Route
-            path="*"
             element={
               <>
                 <Navigation />
                 <Header />
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/listDocument" element={<ListDocument />} />
-                  <Route path="/forgotpassword" element={<ForgotPassword />} />
-                  <Route path="/changepassword" element={<ChangePassword />} />
-                  <Route
-                    path="/createdocuments"
-                    element={
-                      <PrivateRoute>
-                        <CreateDocuments />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/updatedocument/:documentId"
-                    element={
-                      <PrivateRoute>
-                        <UpdateDocuments />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route path="/updateuser" element={<UpdateUser />} />
-                  <Route
-                    path="/user"
-                    element={
-                      <PrivateRoute>
-                        <User />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/documents/:id" element={<Detail />} />
-                  <Route path="/listuser" element={<ListUser />} />
-                  <Route path="/detailsearch" element={<DetailSearch />} />
-                  <Route
-                    path="/documents/category/:categoryName"
-                    element={<CategorySearch />}
-                  />
-                  <Route
-                    path="/documents/user/:userId/verified"
-                    element={<ListDocumentVerified />}
-                  />
-                  <Route
-                    path="/listdocumentverifiedmy"
-                    element={
-                      <PrivateRoute>
-                        <ListDocumentVerifiedMy />
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/listdocumentcreatemy"
-                    element={
-                      <PrivateRoute>
-                        <ListDocumentCreateMy />
-                      </PrivateRoute>
-                    }
-                  />
-                </Routes>
+                <Outlet />
                 <Footer />
                 <ToastContainer />
               </>
             }
-          />
+          >
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/listDocument" element={<ListDocument />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/changepassword" element={<ChangePassword />} />
+            <Route
+              path="/createdocuments"
+              element={
+                <PrivateRoute>
+                  <CreateDocuments />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/updatedocument/:documentId"
+              element={
+                <PrivateRoute>
+                  <UpdateDocuments />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/updateuser" element={<UpdateUser />} />
+            <Route
+              path="/user"
+              element={
+                <PrivateRoute>
+                  <User />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/about" element={<About />} />
+            <Route path="/documents/:id" element={<Detail />} />
+            <Route path="/listuser" element={<ListUser />} />
+            <Route path="/detailsearch" element={<DetailSearch />} />
+            <Route
+              path="/documents/category/:categoryName"
+              element={<CategorySearch />}
+            />
+            <Route
+              path="/documents/user/:userId/verified"
+              element={<ListDocumentVerified />}
+            />
+            <Route
+              path="/listdocumentverifiedmy"
+              element={
+                <PrivateRoute>
+                  <ListDocumentVerifiedMy />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/listdocumentcreatemy"
+              element={
+                <PrivateRoute>
+                  <ListDocumentCreateMy />
+                </PrivateRoute>
+              }
+            />
+          </Route>
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>

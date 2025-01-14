@@ -1,0 +1,77 @@
+.aboutWrapper {
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  min-height: 100vh;
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.profileImage {
+  border: 4px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  object-fit: cover;
+}
+
+.profileImage:hover {
+  transform: scale(1.05) translateZ(0);
+}
+
+.profileInfo {
+  margin-top: 1.5rem;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 1rem;
+}
+
+.welcomeCard {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.welcomeCard :global(.ant-card-head) {
+  border-bottom: 2px solid #f0f0f0;
+  padding: 1rem;
+}
+
+.paragraph {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #4a4a4a;
+  margin-bottom: 1rem;
+}
+
+.divider {
+  margin: 1rem 0;
+  opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .aboutWrapper {
+    padding: 1rem;
+  }
+
+  .profileImage {
+    width: 150px;
+    height: 150px;
+  }
+}
