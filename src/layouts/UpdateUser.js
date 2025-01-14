@@ -329,12 +329,14 @@ function UpdateUser() {
                   <>
                     <div
                       style={{
-                        width: "16px",
-                        height: "16px",
-                        border: "2px solid #ffffff",
-                        borderTop: "2px solid transparent",
+                        display: "inline-block",
+                        width: "20px",
+                        height: "20px",
+                        border: "2px solid rgba(255, 255, 255, 0.3)",
+                        borderTop: "2px solid #ffffff",
                         borderRadius: "50%",
-                        animation: "spin 1s linear infinite",
+                        animation: "spin 0.8s ease-in-out infinite",
+                        marginRight: "8px",
                       }}
                     />
                     Đang xử lý...
@@ -353,8 +355,9 @@ function UpdateUser() {
 
 const spinKeyframes = `
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
 
