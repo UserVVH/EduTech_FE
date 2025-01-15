@@ -8,6 +8,7 @@ import HeaderAdmin from "../../components/Admin/HeaderAdmin/HeaderAdmin";
 import { toast, ToastContainer } from "react-toastify";
 import ReactPaginate from "react-paginate"; // Import ReactPaginate
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "antd";
 
 function AdminDocumentApproved() {
   const [verifiedDocuments, setVerifiedDocuments] = useState([]);
@@ -162,7 +163,15 @@ function AdminDocumentApproved() {
                         }}
                       />
                     </td>
-                    <td>{document.title}</td>
+                    <td>
+                      {/* {document.title} */}
+                      <Tooltip title={document.title}>
+                        <span style={{ cursor: "pointer" }}>
+                          {document.title.split(" ").slice(0, 3).join(" ") +
+                            (document.title.split(" ").length > 3 ? "..." : "")}
+                        </span>
+                      </Tooltip>
+                    </td>
                     <td>{document.userName}</td>
                     <td>{document.view}</td>
                     <td>{document.categoryName}</td>

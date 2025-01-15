@@ -7,6 +7,9 @@ import HeaderAdmin from "../../components/Admin/HeaderAdmin/HeaderAdmin";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { FiSearch } from "react-icons/fi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function AdminListUser() {
   const [users, setUsers] = useState([]);
@@ -36,17 +39,17 @@ function AdminListUser() {
         const data = await response.json();
 
         // Đọc trạng thái người dùng từ localStorage và cập nhật lại
-        // const savedUsers = JSON.parse(localStorage.getItem("users")) || [];
+        const savedUsers = JSON.parse(localStorage.getItem("users")) || [];
 
-        // const updatedUsers = data.map((user) => {
-        //   const savedUser = savedUsers.find((saved) => saved.id === user.id);
-        //   return savedUser ? { ...user, status: savedUser.status } : user;
-        // });
+        const updatedUsers = data.map((user) => {
+          const savedUser = savedUsers.find((saved) => saved.id === user.id);
+          return savedUser ? { ...user, status: savedUser.status } : user;
+        });
 
         // console.log(updatedUsers);
 
         // Mặc định Sắp xếp người dùng theo thời gian tạo (createdAt mới nhất trước)
-        const sortedUsers = data.sort((a, b) => {
+        const sortedUsers = updatedUsers.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
 
@@ -94,8 +97,23 @@ function AdminListUser() {
 
   const handleLockUser = async (userId) => {
     const authToken = localStorage.getItem("authToken");
+    const currentUserEmail = JSON.parse(localStorage.getItem("user"))?.email; // Get current user's email
+
     if (!authToken) {
       navigate("/login");
+      return;
+    }
+
+    // Find the user we're trying to lock
+    const userToLock = users.find((user) => user.id === userId);
+
+    // Prevent admin from locking their own account
+    if (userToLock?.email === currentUserEmail) {
+      toast.error("Bạn không thể khoá tài khoản của chính mình!", {
+        position: "top-center",
+        autoClose: 3000,
+        closeOnClick: true,
+      });
       return;
     }
 
@@ -115,17 +133,18 @@ function AdminListUser() {
         throw new Error("Failed to lock user");
       }
 
-      alert("Tài khoản đã bị khoá thành công!");
+      // toast.success("Tài khoản đã bị khoá thành công!");
+      toast.success("Tài khoản đã bị khoá thành công!", {
+        position: "top-center",
+        autoClose: 3000,
+        closeOnClick: true,
+      });
 
-      // Cập nhật trạng thái của người dùng trong state
       setUsers((prevUsers) => {
         const updatedUsers = prevUsers.map((user) =>
           user.id === userId ? { ...user, status: "locked" } : user
         );
-
-        // Lưu trạng thái người dùng vào localStorage
         localStorage.setItem("users", JSON.stringify(updatedUsers));
-
         return updatedUsers;
       });
     } catch (error) {
@@ -157,7 +176,11 @@ function AdminListUser() {
         throw new Error("Failed to unlock user");
       }
 
-      alert("Tài khoản đã mở khoá thành công!");
+      toast.success("Tài khoản đã mở khoá thành công!", {
+        position: "top-center",
+        autoClose: 3000,
+        closeOnClick: true,
+      });
 
       // Cập nhật trạng thái của người dùng trong state
       setUsers((prevUsers) => {
@@ -204,6 +227,7 @@ function AdminListUser() {
 
   return (
     <div className="containerAdminManageUser">
+      <ToastContainer />
       <div className="leftAdminManageUser">
         <NavBar />
       </div>
